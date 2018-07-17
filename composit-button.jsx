@@ -12,9 +12,23 @@ class Button extends React.PureComponent {
     }
 }
 
-const ColoredBorder = props => {
+const BorderedButton = props => {
     return <div style={{ border: '1px solid red' }}>{props.children}</div>;
 };
+
+const AlertButton = (WrappedButton, props) => {
+    return class extends React.PureComponent {
+        onClick = () => {
+            alert('HOC click');
+        };
+
+        render() {
+            return <WrappedButton onButtonClick={this.onClick} {...this.props} />;
+        }
+    };
+};
+
+const AlarmButton = AlertButton(Button);
 
 class App extends React.Component {
     onClick = () => {
@@ -24,9 +38,10 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <ColoredBorder>
+                <BorderedButton>
                     <Button onButtonClick={this.onClick} />
-                </ColoredBorder>
+                </BorderedButton>
+                <AlarmButton />
             </div>
         );
     }
